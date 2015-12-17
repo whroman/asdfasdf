@@ -15,13 +15,14 @@ describe("Turn", () => {
             });
         });
 
+
         it("should return no pins if all are knocked down", () => {
             testCases.forEach((numOfPins) => {
                 const turn = new Turn(2, numOfPins);
                 let key;
-                for (key in turn.pins) {
-                    turn.pins[key] = true;
-                }
+                turn.pins = turn.pins.map(() => {
+                    return false;
+                });
                 const remainingPins = turn.getRemainingPins();
                 assert.equal(remainingPins.length, 0);
             });
