@@ -35,8 +35,7 @@ describe("Turn", () => {
         const addCase = function (pinsToAffect, numOfPins) {
             testCases.push({
                 pinsToAffect: pinsToAffect,
-                numOfPins: numOfPins,
-                expect: numOfPins - pinsToAffect.length
+                numOfPins: numOfPins
             });
         };
 
@@ -54,5 +53,55 @@ describe("Turn", () => {
 
             });
         });
+
+
+        it("should tally score of one roll correctly", () => {
+            testCases.forEach((testCase) => {
+                const turn = new Turn(2, testCase.numOfPins);
+                turn.roll(testCase.pinsToAffect);
+                assert.equal(
+                    turn.rolls[0],
+                    testCase.pinsToAffect.length
+                );
+            });
+        });
+
+        it("should not execute if Turn has no rolls are left", () => {
+            const numOfPins = 10;
+            const turn = new Turn(2, numOfPins);
+
+            turn.roll();
+            turn.roll();
+            turn.roll([0]);
+
+            assert.equal(turn.getRemainingPins().length, numOfPins);
+        });
+    });
+
+    describe("isOver()", () => {
+        const testCases = [2,5,10];
+
+        it("should return `false` is no rolls of Turn have been used", () => {
+            const turn = new Turn(1, 10);
+            assert.equal(turn.isOver(), false);
+        });
+
+
+        it("should return `false` is not all rolls of Turn have been used", () => {
+            testCases.forEach((testCase) => {
+                const turn = new Turn(testCase + 1, 10);
+                while (testCase--) turn.roll();
+                assert.equal(turn.isOver(), false);
+            });
+        });
+
+        it("should return `true` is all rolls of Turn have been used", () => {
+            testCases.forEach((testCase) => {
+                const turn = new Turn(testCase, 10);
+                while (testCase--) turn.roll();
+                assert.equal(turn.isOver(), true);
+            });
+        });
+
     });
 });
