@@ -14,17 +14,55 @@ body {
     text-align: center;
 }
 
-.pins {
+#pins {
     display: inline-block;
     text-align: center;
 }
 
 .pin {
     display: inline-block;
+    position: relative;
     width: 36px;
     height: 36px;
     border-radius: 18px;
-    border: 1px solid #444;
+
+    border-width: 1px;
+    border-style: solid;
+
+    border-color: #E65;
+    background-color: #E65;
+    color: #FFF;
+}
+
+.pin.is-up {
+    border-color: #444;
+    background-color: #FFF;
+    color: #444;
+}
+
+.pin i {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+}
+
+.pin i.fa-map-pin {
+    left: 2px;
+    display: none;
+}
+
+.pin i.fa-times {
+    left: 1px;
+    display: inline-block;
+}
+
+.pin.is-up i.fa-map-pin {
+    display: inline-block;
+}
+
+.pin.is-up i.fa-times {
+    display: none;
 }
 
 .controls {
