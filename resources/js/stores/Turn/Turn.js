@@ -31,7 +31,6 @@ class Turn {
     }
 
     roll (arrayOfPinIds) {
-        console.log('ROLL')
         if (this.rolls[this.currentRoll] === undefined) {
             console.warn("No rolls left in this turn.");
             return this;

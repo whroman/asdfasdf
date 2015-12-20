@@ -27,7 +27,6 @@ class Player {
         return this.currentTurn >= this.turns.length;
     }
 
-
     roll (arrayOfPinIds) {
         if (this.isDone()) {
             console.warn("Player " + this.name + " has no moves left");
@@ -39,7 +38,6 @@ class Player {
 
         // Handle results of Roll
         if (turn.isOver()) this.currentTurn++;
-
     }
 
     randomRoll () {
@@ -47,7 +45,7 @@ class Player {
         let toHit = [];
 
         pins.forEach((val) => {
-            const hit = Math.floor(Math.random() * 2);
+            const hit = Math.floor(Math.random() * 1.1);
             if (hit === 0) {
                 toHit.push(val);
             }

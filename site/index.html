@@ -12,32 +12,46 @@
 
     <h1 class="title">Bowling</h1>
 
-    <div class="row column small-12">
+    <div class="row column small-10 small-centered">
         <div id="app">
             <div class="row">
-                <div class="scoreboard column small-3">
-                    <table>
+                <div class="scoreboard column small-12">
+                    <table class="width-full">
                         <thead>
                             <tr>
                                 <td>Player</td>
-                                <td>Score</td>
+                                <td>Turns</td>
                                 <td>Roll One</td>
                                 <td>Roll Two</td>
-                                <td>Turns</td>
+                                <td>Score</td>
                             </tr>
                         </thead>
-                        <tr>
-                            <td>One</td>
-                            <td data-score="0"></td>
-                            <td data-roll-one="0"></td>
-                            <td data-roll-two="0"></td>
-                            <td data-turns="0"></td>
-                        </tr>
+
+                        <tbody>
+                            <tr>
+                                <td>One</td>
+                                <td data-turns="0"></td>
+                                <td data-roll-one="0"></td>
+                                <td data-roll-two="0"></td>
+                                <td data-score="0"></td>
+                            </tr>
+
+                            <tr>
+                                <td>Two</td>
+                                <td data-turns="1"></td>
+                                <td data-roll-one="1"></td>
+                                <td data-roll-two="1"></td>
+                                <td data-score="1"></td>
+                            </tr>
+                        </tbody>
+
                     </table>
+                    <br>
+                    <br>
                 </div>
 
 
-                <div id="pins" class="column small-6 end">
+                <div id="pins" class="column small-12">
                     <div class="pin-row">
                         <div class="pin" data-id="0">
                             <i class="fa fa-times"></i>
@@ -94,7 +108,9 @@
             <div class="row">
                 <div class="column small-12">
                     <div class="controls">
-                        <div id="action-bowl" class="button">Bowl</div>
+                        <div id="action-reset" class="button pull-left alert">Reset</div>
+
+                        <div id="action-bowl" class="button pull-right">Bowl</div>
                     </div>
 
                 </div>

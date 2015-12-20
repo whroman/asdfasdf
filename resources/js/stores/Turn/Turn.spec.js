@@ -76,6 +76,20 @@ describe("Turn", () => {
 
             assert.equal(turn.getRemainingPins().length, numOfPins);
         });
+
+        it("should work for 9 pins", () => {
+            const turn = new Turn(2, 10);
+            turn.roll([0,1,2,3,4,5,6,7,8]);
+            assert.equal(turn.getRemainingPins(), 9);
+            assert.equal(turn.isOver(), false);
+        })
+
+        it("should work for 10 pins", () => {
+            const turn = new Turn(2, 10);
+            turn.roll([0,1,2,3,4,5,6,7,8, 9]);
+            assert.equal(turn.getRemainingPins().length, 0);
+            assert.equal(turn.isOver(), true);
+        })
     });
 
     describe("isOver()", () => {
