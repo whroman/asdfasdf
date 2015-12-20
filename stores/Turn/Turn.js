@@ -38,14 +38,16 @@ class Turn {
 
         let score = 0;
         arrayOfPinIds.forEach((pinId) => {
-            if (this.pins[pinId]) {
-                this.pins[pinId] = false;
-                score++;
-            }
+            if (!this.pins[pinId]) console.warn("Pin " + pinId + " is already knocked down.");
+            this.pins[pinId] = false;
+            score++;
         });
 
         this.rolls[this.currentRoll] = score;
         this.currentRoll++;
+
+        const isStrike = score === this.pins.length;
+        if (isStrike) this.currentRoll++;
 
         return this;
     }

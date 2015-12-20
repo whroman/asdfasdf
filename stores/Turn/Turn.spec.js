@@ -86,13 +86,19 @@ describe("Turn", () => {
             assert.equal(turn.isOver(), false);
         });
 
-
         it("should return `false` is not all rolls of Turn have been used", () => {
             testCases.forEach((testCase) => {
                 const turn = new Turn(testCase + 1, 10);
                 while (testCase--) turn.roll();
                 assert.equal(turn.isOver(), false);
             });
+        });
+
+
+        it("should return `true` is a strike is rolled", () => {
+            const turn = new Turn(2, 5);
+            turn.roll([0,1,2,3,4]);
+            assert.equal(turn.isOver(), true);
         });
 
         it("should return `true` is all rolls of Turn have been used", () => {

@@ -19,19 +19,51 @@ class Player {
 
     }
 
+    isDone () {
+        return this.currentTurn >= this.turns.length;
+    }
+
+
     roll (arrayOfPinIds) {
+        if (this.isDone()) {
+            console.warn("Player " + this.name + " has no moves left");
+            return;
+        }
+        // Roll
         const turn = this.turns[this.currentTurn]
         turn.roll(arrayOfPinIds);
+
+        // Handle results of Roll
         if (turn.isOver()) this.currentTurn++;
     }
 
     getScore () {
         let score = 0;
+        let lastRoll = 0;
+        let lastLastRoll = 0;
 
-        this.turns.forEach((turn) => {
-            turn.rolls.forEach((rollScore) => {
-                score += rollScore;
-            });
+        const turns = this.turns.slice(0).reverse();
+        turns.forEach((turn) => {
+            const roll1 = turn.rolls[0];
+            const rawScore = roll1 + turn.rolls[1];
+            let fullScore = rawScore
+
+            const isStrike = roll1 === turn.pins.length;
+            const isSpare = rawScore === turn.pins.length;
+
+            if (isStrike) {
+                fullScore += lastRoll + lastLastRoll;
+                lastLastRoll = lastRoll;
+                lastRoll = turn.pins.length;
+            } else {
+                if (isSpare) {
+                    fullScore += lastRoll;
+                }
+                lastLastRoll = lastRoll;
+                lastRoll = roll1;
+            }
+
+            score += fullScore;
         });
 
         return score;
