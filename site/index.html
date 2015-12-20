@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bowling</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.0.5/foundation.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+
+    <h1 class="title">Bowling</h1>
+
+    <div class="row column small-12">
+        <div id="app">
+            <div class="row">
+                <div class="scoreboard column small-3">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Player</td>
+                                <td>Score</td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>One</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div class="pins column small-6 end">
+                    <div class="pin-row">
+                        <div class="pin"></div>
+                        <div class="pin"></div>
+                        <div class="pin"></div>
+                        <div class="pin"></div>
+                    </div>
+                    <div class="pin-row">
+                        <div class="pin"></div>
+                        <div class="pin"></div>
+                        <div class="pin"></div>
+                    </div>
+                    <div class="pin-row">
+                        <div class="pin"></div>
+                        <div class="pin"></div>
+                    </div>
+
+                    <div class="pin-row">
+                        <div class="pin"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column small-12">
+                    <div class="controls">
+                        <div app-click="bowl" class="button">Bowl</div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</body>
+</html>
