@@ -19,6 +19,10 @@ class Player {
 
     }
 
+    getCurrentTurn () {
+        return this.turns[this.currentTurn];
+    }
+
     isDone () {
         return this.currentTurn >= this.turns.length;
     }
@@ -30,11 +34,28 @@ class Player {
             return;
         }
         // Roll
-        const turn = this.turns[this.currentTurn]
+        const turn = this.getCurrentTurn();
         turn.roll(arrayOfPinIds);
 
         // Handle results of Roll
         if (turn.isOver()) this.currentTurn++;
+
+    }
+
+    randomRoll () {
+        const pins = this.getCurrentTurn().getRemainingPins();
+        let toHit = [];
+
+        pins.forEach((val) => {
+            const hit = Math.floor(Math.random() * 2);
+            if (hit === 0) {
+                toHit.push(val);
+            }
+        });
+
+        this.roll(toHit);
+
+        return this;
     }
 
     getScore () {

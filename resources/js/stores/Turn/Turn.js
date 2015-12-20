@@ -18,10 +18,12 @@ class Turn {
     }
 
     getRemainingPins () {
-        const rPins = this.pins.filter(function (pinRemains) {
-            return pinRemains
+        const remainingPins = [];
+
+        this.pins.forEach(function (pinRemains, pinIndex) {
+            if (pinRemains) remainingPins.push(pinIndex);
         });
-        return rPins;
+        return remainingPins;
     }
 
     isOver () {
@@ -29,6 +31,7 @@ class Turn {
     }
 
     roll (arrayOfPinIds) {
+        console.log('ROLL')
         if (this.rolls[this.currentRoll] === undefined) {
             console.warn("No rolls left in this turn.");
             return this;
