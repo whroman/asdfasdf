@@ -1,4 +1,5 @@
 "use strict";
+
 var Turn = require("./../Turn/Turn.js");
 
 class Player {

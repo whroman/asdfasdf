@@ -74,6 +74,17 @@ body {
     text-align: center;
 }
 
+.scoreboard tr.current {
+    background: #1583cc;
+    color: white;
+}
+
 .button {
     margin: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

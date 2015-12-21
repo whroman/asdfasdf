@@ -1,117 +1,99 @@
 "use strict";
 
 var InfoView = require("./InfoView.js");
+var PinsView = require("./PinsView.js");
 
 class GameView {
 
     constructor (game) {
         this.game = game;
-        this.infoView = new InfoView(this.game);
+        this.subviews ={
+            info: new InfoView(this.game),
+            pins: new PinsView(this.game)
+        };
 
-        this.bindDomPins();
         this.bindBowlAction();
         this.bindResetAction();
 
-        this.updateAll();
+        this.update();
     }
 
-    updateAll () {
-        this.updatePins();
-
-        this.game.players.forEach( () => {
-            this.infoView.update();
-            this.game.setNextPlayer();
-        });
-    }
-
-    bindDomPins () {
-        const sel = ".pin";
-        this.domPins = Array(10);
-        const domPins = Array.prototype.slice.call(document.querySelectorAll(sel));
-        domPins.forEach((domPin) => {
-            const key = domPin.getAttribute("data-id");
-            this.domPins[key] = domPin;
-
-        });
+    update () {
+        this.subviews.pins.update();
+        this.subviews.info.update();
     }
 
     bindResetAction () {
         const id = "action-reset";
         const domReset = document.getElementById(id);
         domReset.addEventListener("click", () =>  {
-            this.game.reset();
-            this.updateAll();
+            this.resetAction();
         });
+    }
+
+    resetAction () {
+        this.game.reset();
+        this.update();
+        this.domBowl.className = this.domBowlClasses;
+        this.domBowl.innerText = this.domBowlText;
     }
 
     bindBowlAction () {
         const id = "action-bowl";
-        const domBowl = document.getElementById(id);
-        const originalClasses = domBowl.className;
-        domBowl.addEventListener("click", () => {
-            if (this.game.isOver()) {
-                domBowl.className = originalClasses + " disabled";
-                return;
-            }
+        this.domBowl = document.getElementById(id);
+        this.domBowlClasses = this.domBowl.className;
+        this.domBowlText = "Roll";
 
-            const player = this.game.getCurrentPlayer();
-            const turn = player.getCurrentTurn();
-            const isOver = turn.isOver();
-
-            let classNames = [originalClasses];
-
-            if (turn.isOver()) {
-                /*
-                    If the current turn is over, we want to display a fresh
-                        set of pins without "rolling".
-                */
-                player.currentTurn++;
-                this.game.setNextPlayer();
-                this.updatePins();
-                domBowl.innerText = "Roll";
-
-            } else {
-                player.randomRoll();
-
-                /*
-                    If game is over, we still want to render appropriate buttons,
-                        but not allow clicking of "Roll" button any longer.
-                */
-                if (this.game.isOver()) classNames.push("disabled");
-
-                if (turn.isOver()) {
-                    /*
-                        If this roll ended the turn, we want to display
-                            the state of the turn that just ended.
-                    */
-                    player.currentTurn--;
-
-                    domBowl.innerText = "Begin Turn"
-                    classNames.push("success");
-                }
-
-                this.updatePins();
-            }
-
-            domBowl.className = classNames.join(" ");
+        this.domBowl.addEventListener("click", () => {
+            this.bowlAction();
         });
     }
 
-    updatePins () {
-        const isUpClass = "is-up"
-        const turn = this.game.getCurrentPlayer().getCurrentTurn();
-        if (!turn) return;
-        turn.pins.forEach((pinIsUp, pinIndex) => {
-            const domPin = this.domPins[pinIndex];
-            if (pinIsUp) {
-                domPin.classList.add(isUpClass);
-            } else {
-                domPin.classList.remove(isUpClass);
-            }
-        });
+    bowlAction () {
+        if (this.game.isOver()) {
+            this.domBowl.className = this.domBowlClasses + " disabled";
+            return;
+        }
 
+        const player = this.game.getCurrentPlayer();
+        const turn = player.getCurrentTurn();
+        const isOver = turn.isOver();
 
-        this.infoView.update();
+        // Only "roll" is the current turn is not over
+        if (turn.isOver()) {
+            /*
+                If the current turn is over, we want to:
+                    1) Not "roll".
+                    2) Display a fresh set of pins.
+            */
+            player.currentTurn++;
+            this.game.setNextPlayer();
+            this.update();
+            this.domBowl.innerText = this.domBowlText;
+            return;
+        }
+
+        let classNames = this.domBowlClasses;
+        player.randomRoll();
+
+        /*
+            If game is over, we still want to render appropriate buttons,
+                but not allow "Roll" button to be clicked.
+        */
+        if (this.game.isOver()) classNames += " disabled";
+
+        /*
+            If this roll ended the turn, we want to display
+                the pins in the state of the turn that just ended.
+        */
+        if (turn.isOver()) {
+            player.currentTurn--;
+            this.domBowl.innerText = "Begin Turn";
+            classNames += " success";
+        }
+
+        this.domBowl.className = classNames;
+        this.update();
     }
 
 }
